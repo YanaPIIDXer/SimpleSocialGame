@@ -3,12 +3,13 @@
 
 # 開発環境
 
-| Key          | Value                 |
-| ------------ | --------------------- |
-| クライアント | Unity                 |
-| サーバ       | Ruby on Rails(Docker) |
-| インフラ     | AWS(ECS)              |
-| インフラ管理 | Terraform             |
+| Key               | Value                 |
+| ----------------- | --------------------- |
+| クライアント      | Unity                 |
+| サーバ            | Ruby on Rails(Docker) |
+| インフラ          | AWS(ECS)              |
+| インフラ管理      | Terraform             |
+| CI/CDパイプライン | Github Actions        |
 
 # 実装する機能
 
