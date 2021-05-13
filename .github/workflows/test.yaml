@@ -22,3 +22,4 @@ jobs:
           SLACK_CHANNEL: simple_social_game_develop
           SLACK_TITLE: Test Failure
           SLACK_COLOR: danger
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
