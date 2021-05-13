@@ -16,3 +16,9 @@ jobs:
       - run: docker-compose run server rails db:create
       - run: docker-compose run server rails db:migrate
       - run: docker-compose run server bundle exec rspec spec
+      - uses: rtCamp/action-slack-notify@v2.0.2
+        if: success()
+        env:
+          SLACK_CHANNEL: simple_social_game_develop
+          SLACK_TITLE: Test Failure
+          SLACK_COLOR: danger
