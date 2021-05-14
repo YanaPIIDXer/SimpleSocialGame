@@ -52,3 +52,4 @@ production:
   database: app_production
   username: develop
   password: <%= ENV['PRODUCTION_DATABASE_PASSWORD'] %>
+  host: rds.yanap-apptest.tk

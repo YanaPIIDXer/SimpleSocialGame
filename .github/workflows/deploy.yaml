@@ -32,3 +32,38 @@ jobs:
           docker build -t simple_social_game_server --build-arg PRODUCTION_DATABASEB_PASSWORD=${{ secrets.PRODUCTION_DATABASE_PASSWORD }} --build-arg RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }} ./Server
           docker tag simple_social_game_server:latest $ECR_REPOSITORY:latest
           docker push $ECR_REPOSITORY:latest
+
+      - name: Render task definition
+        id: render-container
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: AWS/task-definition.json
+          container-name: server
+          image: ${{ secrets.AWS_ECR_REPO_NAME }}:latest
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.render-container.outputs.task-definition }}
+          service: SimpleSocialGame
+          cluster: SimpleSocialGame
+          
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          aws-region: ap-northeast-1
+
+      - run:
+        name: "db create"
+        command: |
+          aws ecs run-task --region ap-northeast-1 \
+            --cluster SimpleSocialGame \
+            --task-definition SimpleSocialGame \
+            --overrides AWS/run_task_db_create.json          
+      - run:
+          name: "db migrate"
+          command: |
+            aws ecs run-task --region ap-northeast-1 \
+              --cluster SimpleSocialGame \
+              --task-definition SimpleSocialGame \
+              --overrides AWS/run_task_db_migrate.json  

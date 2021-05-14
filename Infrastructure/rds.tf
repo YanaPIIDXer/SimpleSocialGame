@@ -12,7 +12,7 @@ resource "aws_db_instance" "main" {
     skip_final_snapshot  = true
     publicly_accessible  = true
     db_subnet_group_name = aws_db_subnet_group.db_subnet.name
- #   vpc_security_group_ids = [aws_security_group.db_sg.id]
+    vpc_security_group_ids = [aws_security_group.db_sg.id]
 }
 
 resource "aws_db_subnet_group" "db_subnet" {
@@ -20,8 +20,6 @@ resource "aws_db_subnet_group" "db_subnet" {
   subnet_ids = [aws_subnet.private1.id, aws_subnet.private2.id]
 }
 
-// ECS構築するまで封印
-/*
 resource "aws_security_group" "db_sg" {
     name = "SimpleSocialGame_RDB"
     description = "RDB"
@@ -41,7 +39,6 @@ resource "aws_security_group" "db_sg" {
         security_groups  = [aws_security_group.ecs_instance_sg.id]
     }
 }
-*/
 
 resource "aws_db_subnet_group" "db_inst_subnet_group" {
   name       = "simple_social_game"

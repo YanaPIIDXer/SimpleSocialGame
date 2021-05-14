@@ -1,0 +1,11 @@
+{
+    "containerOverrides": [
+        {
+            "name": "server",
+            "command": [
+                "rails",
+                "db:create"
+            ]
+        }
+    ]
+}
