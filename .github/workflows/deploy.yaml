@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-        
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -47,7 +47,7 @@ jobs:
           task-definition: ${{ steps.render-container.outputs.task-definition }}
           service: SimpleSocialGame
           cluster: SimpleSocialGame
-          
+
       - name: install-aws-cli
         uses: unfor19/install-aws-cli-action@v1
         with:
@@ -66,7 +66,14 @@ jobs:
             --cluster SimpleSocialGame \
             --task-definition SimpleSocialGame \
             --overrides file://AWS/run_task_db_migrate.json
-      
+
+      - name: Append Seeds to Database
+        run: |
+          aws ecs run-task --region ap-northeast-1 \
+            --cluster SimpleSocialGame \
+            --task-definition SimpleSocialGame \
+            --overrides file://AWS/run_task_db_seed.json
+
       - uses: rtCamp/action-slack-notify@v2.0.2
         if: success()
         env:
