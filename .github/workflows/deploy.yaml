@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-
+        
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -48,22 +48,22 @@ jobs:
           service: SimpleSocialGame
           cluster: SimpleSocialGame
           
-      - aws-cli/setup:
-          aws-access-key-id: AWS_ACCESS_KEY_ID
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          aws-region: ap-northeast-1
+      - name: install-aws-cli
+        uses: unfor19/install-aws-cli-action@v1
+        with:
+          version: 2.0.33
 
-      - run:
-        name: "db create"
-        command: |
+      - name: Create Database
+        run: |
           aws ecs run-task --region ap-northeast-1 \
             --cluster SimpleSocialGame \
             --task-definition SimpleSocialGame \
-            --overrides AWS/run_task_db_create.json          
-      - run:
-          name: "db migrate"
-          command: |
-            aws ecs run-task --region ap-northeast-1 \
-              --cluster SimpleSocialGame \
-              --task-definition SimpleSocialGame \
-              --overrides AWS/run_task_db_migrate.json  
+            --overrides AWS/run_task_db_create.json
+
+      - name: Migrate Database
+        run: |
+          aws ecs run-task --region ap-northeast-1 \
+            --cluster SimpleSocialGame \
+            --task-definition SimpleSocialGame \
+            --overrides AWS/run_task_db_migrate.json
+      
