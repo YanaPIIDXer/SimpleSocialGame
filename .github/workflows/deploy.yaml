@@ -32,3 +32,18 @@ jobs:
           docker build -t simple_social_game_server --build-arg PRODUCTION_DATABASEB_PASSWORD=${{ secrets.PRODUCTION_DATABASE_PASSWORD }} --build-arg RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }} ./Server
           docker tag simple_social_game_server:latest $ECR_REPOSITORY:latest
           docker push $ECR_REPOSITORY:latest
+
+      - name: Render task definition
+        id: render-container
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: AWS/task-definition.json
+          container-name: server
+          image: ${{ secrets.AWS_ECR_REPO_NAME }}:latest
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.render-container.outputs.task-definition }}
+          service: SimpleSocialGame
+          cluster: SimpleSocialGame
