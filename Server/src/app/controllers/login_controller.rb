@@ -9,6 +9,8 @@ class LoginController < ApplicationController
                 return
             end
         end
+
+        session[:id] = user.id
         render json: {message: "Create User Success."}
     end
 end
