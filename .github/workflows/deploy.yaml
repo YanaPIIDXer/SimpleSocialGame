@@ -47,3 +47,23 @@ jobs:
           task-definition: ${{ steps.render-container.outputs.task-definition }}
           service: SimpleSocialGame
           cluster: SimpleSocialGame
+          
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          aws-region: ap-northeast-1
+
+      - run:
+        name: "db create"
+        command: |
+          aws ecs run-task --region ap-northeast-1 \
+            --cluster SimpleSocialGame \
+            --task-definition SimpleSocialGame \
+            --overrides AWS/run_task_db_create.json          
+      - run:
+          name: "db migrate"
+          command: |
+            aws ecs run-task --region ap-northeast-1 \
+              --cluster SimpleSocialGame \
+              --task-definition SimpleSocialGame \
+              --overrides AWS/run_task_db_migrate.json  
