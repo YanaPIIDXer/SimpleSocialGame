@@ -3,10 +3,10 @@ FROM ruby:2.5
 ARG PRODUCTION_DATABASE_PASSWORD
 ENV PRODUCTION_DATABASE_PASSWORD=${PRODUCTION_DATABASE_PASSWORD}
 
-ARG RAILS_MASTER_KEY
-ENV RAILS_MASTER_KEY ${RAILS_MASTER_KEY}
+ARG SECRET_KEY_BASE
+ENV SECRET_KEY_BASE ${SECRET_KEY_BASE}}
 
-RUN apt-get update -qq && apt-get install -y nodejs
+RUN apt-get update -qq && apt-get install -y nodejs vim
 
 WORKDIR /app
 COPY ./src/Gemfile /app/Gemfile
