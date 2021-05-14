@@ -5,12 +5,12 @@ class LoginController < ApplicationController
         if user == nil then
             user = User.new(name: name)
             if !user.save then
-                render json: {message: "Create User Failed."}, status: 304
+                render json: {message: "fail."}, status: 304
                 return
             end
         end
 
         session[:id] = user.id
-        render json: {message: "Create User Success."}
+        render json: {message: "success.", stone: user.stone}
     end
 end

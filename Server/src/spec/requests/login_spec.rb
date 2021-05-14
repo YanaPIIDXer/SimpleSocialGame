@@ -6,6 +6,9 @@ RSpec.describe "Logins", type: :request do
       post "/login", params: {name: "test"}
       user = User.find_by(name: "test")
       expect(user).not_to eq nil
+      expect(user.stone).to eq 100
+      res = JSON.parse(response.body)
+      expect(res["stone"]).to eq 100
     end
 
     it "Null Request" do
