@@ -24,3 +24,7 @@
 
 # 素材提供
 [ジュエルセイバーFREE](http://www.jewel-s.jp/)
+
+# 大雑把なインフラ構成図
+
+![構成図](https://github.com/YanaPIIDXer/SimpleSocialGame/blob/develop/docs/Infrastructure.png)
