@@ -25,6 +25,19 @@ namespace Game.API
 #endif
             }
         }
+
+        /// <summary>
+        /// ログインリクエストパラメータ
+        /// </summary>
+        [Serializable]
+        private struct LoginRequestParam
+        {
+            /// <summary>
+            /// 名前
+            /// </summary>
+            public string name;
+        }
+
         /// <summary>
         /// ログイン
         /// </summary>
@@ -33,7 +46,9 @@ namespace Game.API
         public static IEnumerator Login(string Name, Action<LoginResult> Callback)
         {
             string URL = BaseURL + "login";
-            using (var Req = UnityWebRequest.Post(URL, "POST"))
+            LoginRequestParam Param = new LoginRequestParam();
+            Param.name = Name;
+            using (var Req = MakePostRequest<LoginRequestParam>(URL, Param))
             {
                 yield return Req.SendWebRequest();
                 if (Req.responseCode != 200)
@@ -48,6 +63,25 @@ namespace Game.API
                 Result.IsSuccess = true;
                 Callback?.Invoke(Result);
             }
+        }
+
+        /// <summary>
+        /// POSTリクエストを作成
+        /// </summary>
+        /// <param name="URL">URL</param>
+        /// <param name="Param">パラメータ</param>
+        /// <typeparam name="T">パラメータの型</typeparam>
+        /// <returns>リクエストオブジェクト</returns>
+        private static UnityWebRequest MakePostRequest<T>(string URL, T Param)
+        {
+            var Req = UnityWebRequest.Post(URL, "POST");
+
+            string ParamJson = JsonUtility.ToJson(Param);
+            byte[] ParamData = System.Text.Encoding.UTF8.GetBytes(ParamJson);
+            Req.uploadHandler = (UploadHandler)new UploadHandlerRaw(ParamData);
+            Req.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+            Req.SetRequestHeader("Content-Type", "application/json");
+            return Req;
         }
     }
 }
