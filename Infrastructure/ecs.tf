@@ -107,7 +107,7 @@ resource "aws_ecs_service" "service" {
 
     load_balancer {
         target_group_arn = aws_lb_target_group.group.arn
-        container_name   = "rails"
+        container_name   = "server"
         container_port   = 3000
     }
 }
