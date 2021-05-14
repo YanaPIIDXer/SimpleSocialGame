@@ -58,12 +58,27 @@ jobs:
           aws ecs run-task --region ap-northeast-1 \
             --cluster SimpleSocialGame \
             --task-definition SimpleSocialGame \
-            --overrides AWS/run_task_db_create.json
+            --overrides file://AWS/run_task_db_create.json
 
       - name: Migrate Database
         run: |
           aws ecs run-task --region ap-northeast-1 \
             --cluster SimpleSocialGame \
             --task-definition SimpleSocialGame \
-            --overrides AWS/run_task_db_migrate.json
+            --overrides file://AWS/run_task_db_migrate.json
       
+      - uses: rtCamp/action-slack-notify@v2.0.2
+        if: success()
+        env:
+          SLACK_CHANNEL: simple_social_game_develop
+          SLACK_TITLE: Deploy Success
+          SLACK_COLOR: good
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+      - uses: rtCamp/action-slack-notify@v2.0.2
+        if: failure()
+        env:
+          SLACK_CHANNEL: simple_social_game_develop
+          SLACK_TITLE: Deploy Failure
+          SLACK_COLOR: danger
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
