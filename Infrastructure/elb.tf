@@ -45,3 +45,11 @@ resource "aws_lb_target_group" "group" {
     vpc_id   = aws_vpc.main.id
     depends_on = [aws_lb.main]
 }
+
+resource "aws_route53_record" "elb_domain_record" {
+    zone_id = data.aws_route53_zone.rdb_domain_zone.zone_id
+    name    = "simple-social-game.yanap-apptest.tk"
+    type    = "CNAME"
+    ttl     = "300"
+    records = [aws_lb.main.dns_name]
+}
