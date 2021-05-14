@@ -24,9 +24,11 @@ class ExpansionsController < ApplicationController
         end
 
         if user.stone >= expansion.cost then
-            user.stone -= expansion.cost
+            stone = user.stone
+            stone -= expansion.cost
+            user.stone = stone
             user.save()
-            response[:las_stone] = user.stone
+            response[:last_stone] = stone
 
             cards = expansion.card
             rnd = Random.new()
