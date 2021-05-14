@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Game.API;
 using Game.AssetBundle;
+using UnityEngine.SceneManagement;
 
 namespace Game.Boot
 {
@@ -38,6 +39,7 @@ namespace Game.Boot
                     return;
                 });
                 Debug.Log("Download Success!");
+                SceneManager.LoadScene("Title");
             }
         }
 
