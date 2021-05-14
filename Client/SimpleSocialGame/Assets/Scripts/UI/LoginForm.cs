@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Game.User;
 using Game.API;
+using UnityEngine.SceneManagement;
 
 namespace Game.UI
 {
@@ -45,6 +46,8 @@ namespace Game.UI
 
                 UserInfo.Name = Name;
                 UserInfo.Stone.Value = Result.stone;
+
+                SceneManager.LoadScene("Menu");
             }));
         }
     }
