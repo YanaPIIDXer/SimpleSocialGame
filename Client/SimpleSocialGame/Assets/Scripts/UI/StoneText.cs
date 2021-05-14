@@ -21,7 +21,8 @@ namespace Game.UI
         void Awake()
         {
             DisplayText = GetComponent<Text>();
-            UserInfo.Stone.Subscribe((Value) => DisplayText.text = string.Format("{0}石", Value));
+            UserInfo.Stone.Subscribe((Value) => DisplayText.text = string.Format("{0}石", Value))
+                            .AddTo(gameObject);
         }
     }
 }

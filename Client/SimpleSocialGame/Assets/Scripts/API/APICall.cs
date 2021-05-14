@@ -87,6 +87,45 @@ namespace Game.API
         }
 
         /// <summary>
+        /// ガチャを引くリクエスト
+        /// </summary>
+        [Serializable]
+        private struct DrawGachaRequest
+        {
+            /// <summary>
+            /// ID
+            /// </summary>
+            public int id;
+        }
+
+        /// <summary>
+        /// ガチャを引く
+        /// </summary>
+        /// <param name="ExpansionId">エキスパンションのID</param>
+        /// <param name="Callback">コールバック</param>
+        public static IEnumerator DrawGacha(int ExpansionId, Action<DrawGachaResult> Callback)
+        {
+            string URL = BaseURL + "expansions/draw";
+            DrawGachaRequest Request = new DrawGachaRequest();
+            Request.id = ExpansionId;
+            using (var Req = MakePostRequest<DrawGachaRequest>(URL, Request))
+            {
+                yield return Req.SendWebRequest();
+                if (Req.responseCode != 200)
+                {
+                    Debug.Log("ErrorCode:" + Req.responseCode);
+                    DrawGachaResult FailResult = new DrawGachaResult();
+                    FailResult.result = false;
+                    Callback?.Invoke(FailResult);
+                    yield break;
+                };
+
+                DrawGachaResult Result = JsonUtility.FromJson<DrawGachaResult>(Req.downloadHandler.text);
+                Callback?.Invoke(Result);
+            }
+        }
+
+        /// <summary>
         /// POSTリクエストを作成
         /// </summary>
         /// <param name="URL">URL</param>

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Game.API;
 using Game.Expansion;
+using Game.User;
 
 namespace Game.UI
 {
@@ -47,7 +48,18 @@ namespace Game.UI
         private void OnClickDrawButton()
         {
             var Expansion = Expansions[ExpansionDropdown.value];
-            Debug.Log(Expansion.name);
+            StartCoroutine(APICall.DrawGacha(Expansion.id, (Result) =>
+            {
+                if (!Result.result)
+                {
+                    Debug.LogError("DrawGacha Failed.");
+                    Debug.Log(Result.card_name);
+                    return;
+                }
+
+                UserInfo.Stone.Value = Result.last_stone;
+                Debug.Log(Result.card_name);
+            }));
         }
     }
 }
