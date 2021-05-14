@@ -49,7 +49,6 @@ namespace Game.AssetBundle
         /// </summary>
         /// <param name="BundleName">AssetBundle名</param>
         /// <param name="Callback">コールバック</param>
-        /// <returns></returns>
         public IEnumerator Download(string BundleName, Action<bool> Callback)
         {
             if (BundleDic.ContainsKey(BundleName))
