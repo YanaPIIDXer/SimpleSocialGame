@@ -72,7 +72,7 @@ namespace Game.AssetBundle
                 var Handle = Request.downloadHandler as DownloadHandlerAssetBundle;
                 var Bundle = Handle.assetBundle;
                 BundleDic.Add(BundleName, Bundle);
-                OnSuccess?.Invoke(true);
+                Callback?.Invoke(true);
             }
         }
 
