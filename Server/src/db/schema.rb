@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2021_05_14_070956) do
   end
 
   create_table "expansions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "bundle_uri"
+    t.string "bundle_name"
     t.integer "cost"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
