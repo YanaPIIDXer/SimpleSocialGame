@@ -27,6 +27,26 @@ namespace Game.API
         }
 
         /// <summary>
+        /// エキスパンションリスト取得
+        /// </summary>
+        /// <param name="Callback">コールバック</param>
+        public static IEnumerator Expansions(Action<string[]> Callback)
+        {
+            string URL = BaseURL + "expansions";
+            using (var Req = UnityWebRequest.Get(URL))
+            {
+                yield return Req.SendWebRequest();
+                if (Req.responseCode != 200)
+                {
+                    Callback?.Invoke(null);
+                }
+
+                string[] Expansions = JsonHelper.FromJson<string>(Req.downloadHandler.text);
+                Callback?.Invoke(Expansions);
+            }
+        }
+
+        /// <summary>
         /// ログインリクエストパラメータ
         /// </summary>
         [Serializable]
