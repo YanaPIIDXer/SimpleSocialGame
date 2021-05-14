@@ -15,6 +15,7 @@ jobs:
       - run: docker-compose build
       - run: docker-compose run server rails db:create
       - run: docker-compose run server rails db:migrate
+      - run: docker-compose run server rails db:seed
       - run: docker-compose run server bundle exec rspec spec
       - uses: rtCamp/action-slack-notify@v2.0.2
         if: failure()
