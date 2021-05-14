@@ -6,6 +6,7 @@ class LoginController < ApplicationController
             user = User.new(name: name)
             if !user.save then
                 render json: {message: "Create User Failed."}, status: 304
+                return
             end
         end
         render json: {message: "Create User Success."}
