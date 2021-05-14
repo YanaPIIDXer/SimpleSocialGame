@@ -1,6 +1,11 @@
 class LoginController < ApplicationController
     def index
-        name = params[:name]
+        if params[:body] == nil then
+            render json: {message: "fail."}, status: 304
+            return
+        end
+        json = JSON.parse(params[:body])
+        name = json["name"]
         user = User.find_by(name: name)
         if user == nil then
             user = User.new(name: name)

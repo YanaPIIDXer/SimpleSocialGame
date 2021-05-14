@@ -3,7 +3,9 @@ require 'rails_helper'
 RSpec.describe "Logins", type: :request do
   describe "Login" do
     it "Create User" do
-      post "/login", params: {name: "test"}
+      param = {name: "test"}
+      json = param.to_json()
+      post "/login", params: {body: json}
       user = User.find_by(name: "test")
       expect(user).not_to eq nil
       expect(user.stone).to eq 100
@@ -17,7 +19,9 @@ RSpec.describe "Logins", type: :request do
     end
 
     it "Empty Name" do
-      post "/login", params: {name: ""}
+      param = {name: ""}
+      json = param.to_json()
+      post "/login", params: {body: json}
       expect(response).not_to have_http_status(:success)
     end
   end
