@@ -47,3 +47,15 @@ resource "aws_db_subnet_group" "db_inst_subnet_group" {
   name       = "simple_social_game"
   subnet_ids = [aws_subnet.private1.id, aws_subnet.private2.id]
 }
+
+data "aws_route53_zone" "rdb_domain_zone" {
+    name = "yanap-apptest.tk"
+}
+
+resource "aws_route53_record" "rdb_domain_record" {
+    zone_id = data.aws_route53_zone.rdb_domain_zone.zone_id
+    name    = "rds.yanap-apptest.tk"
+    type    = "CNAME"
+    ttl     = "300"
+    records = [aws_db_instance.main.address ]
+}
