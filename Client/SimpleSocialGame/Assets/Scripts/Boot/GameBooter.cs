@@ -5,6 +5,7 @@ using UnityEngine;
 using Game.API;
 using Game.AssetBundle;
 using UnityEngine.SceneManagement;
+using Game.Expansion;
 
 namespace Game.Boot
 {
@@ -22,7 +23,7 @@ namespace Game.Boot
         /// エキスパンションリストを落としてきた
         /// </summary>
         /// <param name="Expansions">エキスパンションリスト</param>
-        private void OnGetExpansionList(string[] Expansions)
+        private void OnGetExpansionList(ExpansionData[] Expansions)
         {
             if (Expansions == null)
             {
@@ -32,8 +33,9 @@ namespace Game.Boot
 
             foreach (var Expansion in Expansions)
             {
-                Debug.Log(Expansion);
-                DownloadExpansion(Expansion, () =>
+                ExpansionManager.Instance.Add(Expansion);
+                Debug.Log(Expansion.name);
+                DownloadExpansion(Expansion.name, () =>
                 {
                     Debug.Log("Download Failed...");
                     return;

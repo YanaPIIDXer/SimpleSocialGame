@@ -3,7 +3,7 @@ class ExpansionsController < ApplicationController
         list = Expansion.all()
         result = []
         for expansion in list do
-            result.push(expansion.bundle_name)
+            result.push({id: expansion.id, name: expansion.bundle_name, cost: expansion.cost})
         end
         render json: result.to_json()
     end

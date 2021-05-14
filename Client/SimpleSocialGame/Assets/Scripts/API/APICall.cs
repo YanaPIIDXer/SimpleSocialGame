@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Game.Expansion;
 
 namespace Game.API
 {
@@ -30,7 +31,7 @@ namespace Game.API
         /// エキスパンションリスト取得
         /// </summary>
         /// <param name="Callback">コールバック</param>
-        public static IEnumerator Expansions(Action<string[]> Callback)
+        public static IEnumerator Expansions(Action<ExpansionData[]> Callback)
         {
             string URL = BaseURL + "expansions";
             using (var Req = UnityWebRequest.Get(URL))
@@ -41,7 +42,7 @@ namespace Game.API
                     Callback?.Invoke(null);
                 }
 
-                string[] Expansions = JsonHelper.FromJson<string>(Req.downloadHandler.text);
+                ExpansionData[] Expansions = JsonHelper.FromJson<ExpansionData>(Req.downloadHandler.text);
                 Callback?.Invoke(Expansions);
             }
         }
