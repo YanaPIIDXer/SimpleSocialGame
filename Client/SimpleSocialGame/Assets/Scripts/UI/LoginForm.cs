@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.User;
 using Game.API;
 
 namespace Game.UI
@@ -33,9 +34,17 @@ namespace Game.UI
         /// </summary>
         private void OnLoginButtonClick()
         {
-            StartCoroutine(APICall.Login(NameInput.text, (Result) =>
+            string Name = NameInput.text;
+            StartCoroutine(APICall.Login(Name, (Result) =>
             {
-                Debug.Log(Result.IsSuccess);
+                if (!Result.IsSuccess)
+                {
+                    Debug.Log("ログイン失敗");
+                    return;
+                }
+
+                UserInfo.Name = Name;
+                UserInfo.Stone = Result.stone;
             }));
         }
     }
