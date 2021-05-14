@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 namespace Game.User
 {
@@ -17,6 +18,6 @@ namespace Game.User
         /// <summary>
         /// 石
         /// </summary>
-        public static int Stone { get; set; }
+        public static ReactiveProperty<int> Stone { get; set; }
     }
 }

@@ -44,7 +44,7 @@ namespace Game.UI
                 }
 
                 UserInfo.Name = Name;
-                UserInfo.Stone = Result.stone;
+                UserInfo.Stone.Value = Result.stone;
             }));
         }
     }
