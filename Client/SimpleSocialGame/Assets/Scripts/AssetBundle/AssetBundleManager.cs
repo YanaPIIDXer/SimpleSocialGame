@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Game.AssetBundle
 {
@@ -30,15 +31,14 @@ namespace Game.AssetBundle
         /// <summary>
         /// AssetBundleのDictionary
         /// </summary>
-        /// <returns></returns>
-        private Dictionary<string, AssetBundle> BundleDic = new Dictionary<string, Game.AssetBundle>();
+        private Dictionary<string, UnityEngine.AssetBundle> BundleDic = new Dictionary<string, UnityEngine.AssetBundle>();
 
         /// <summary>
         /// 取得
         /// </summary>
         /// <param name="BundleName">AssetBundle名</param>
         /// <returns>AssetBundle</returns>
-        public AssetBundle Get(string BundleName)
+        public UnityEngine.AssetBundle Get(string BundleName)
         {
             if (!BundleDic.ContainsKey(BundleName)) { return null; }
             return BundleDic[BundleName];
@@ -55,7 +55,7 @@ namespace Game.AssetBundle
             if (BundleDic.ContainsKey(BundleName))
             {
                 Callback?.Invoke(true);
-                return;
+                yield break;
             }
 
             var URL = BaseURL + BundleName;
