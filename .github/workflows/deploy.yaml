@@ -55,14 +55,14 @@ jobs:
 
       - name: Create Database
         run: |
-          aws ecs run-task --region $AWS_REGION \
+          aws ecs run-task --region ap-northeast-1 \
             --cluster SimpleSocialGame \
             --task-definition SimpleSocialGame \
             --overrides AWS/run_task_db_create.json
 
       - name: Migrate Database
         run: |
-          aws ecs run-task --region $AWS_REGION \
+          aws ecs run-task --region ap-northeast-1 \
             --cluster SimpleSocialGame \
             --task-definition SimpleSocialGame \
             --overrides AWS/run_task_db_migrate.json
