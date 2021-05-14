@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.API;
 
 namespace Game.UI
 {
@@ -21,5 +22,21 @@ namespace Game.UI
         /// </summary>
         [SerializeField]
         private Button LoginButton = null;
+
+        void Awake()
+        {
+            LoginButton.onClick.AddListener(OnLoginButtonClick);
+        }
+
+        /// <summary>
+        /// ログインボタンが押された
+        /// </summary>
+        private void OnLoginButtonClick()
+        {
+            StartCoroutine(APICall.Login(NameInput.text, (Result) =>
+            {
+                Debug.Log(Result.IsSuccess);
+            }));
+        }
     }
 }
