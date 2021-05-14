@@ -15,7 +15,7 @@ class ExpansionsController < ApplicationController
             return
         end
 
-        response = {result: false, card_name: ""}
+        response = {result: false, card_name: "", last_stone: user.stone}
         id = params["id"]
         expansion = Expansion.find_by(id: id)
         if expansion == nil then
@@ -26,6 +26,7 @@ class ExpansionsController < ApplicationController
         if user.stone >= expansion.cost then
             user.stone -= expansion.cost
             user.save()
+            response[:las_stone] = user.stone
 
             cards = expansion.card
             rnd = Random.new()
