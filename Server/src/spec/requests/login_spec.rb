@@ -4,8 +4,7 @@ RSpec.describe "Logins", type: :request do
   describe "Login" do
     it "Create User" do
       param = {name: "test"}
-      json = param.to_json()
-      post "/login", params: {body: json}
+      post "/login", params: param, as: :json
       user = User.find_by(name: "test")
       expect(user).not_to eq nil
       expect(user.stone).to eq 100
@@ -20,8 +19,7 @@ RSpec.describe "Logins", type: :request do
 
     it "Empty Name" do
       param = {name: ""}
-      json = param.to_json()
-      post "/login", params: {body: json}
+      post "/login", params: param, as: :json
       expect(response).not_to have_http_status(:success)
     end
   end
