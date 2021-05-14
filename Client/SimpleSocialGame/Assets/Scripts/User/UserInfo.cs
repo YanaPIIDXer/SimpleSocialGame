@@ -18,6 +18,6 @@ namespace Game.User
         /// <summary>
         /// 石
         /// </summary>
-        public static ReactiveProperty<int> Stone { get; set; }
+        public static ReactiveProperty<int> Stone { get; set; } = new ReactiveProperty<int>();
     }
 }
