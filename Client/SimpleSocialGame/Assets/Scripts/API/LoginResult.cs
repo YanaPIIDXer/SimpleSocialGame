@@ -22,6 +22,6 @@ namespace Game.API
         /// <summary>
         /// 石
         /// </summary>
-        public string stone;
+        public int stone;
     }
 }
